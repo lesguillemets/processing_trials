@@ -1,0 +1,33 @@
+int sizex = 500;
+int sizey = 500;
+int n=0;
+int squarewidth = 25;
+int nmax = (sizex+sizey)/squarewidth;
+float sizevar = 1.0;
+float sizevar_s = squarewidth*sizevar/2;
+void setup() {
+  size(sizex,sizey);
+  background(200);
+  noStroke();
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+void draw(){
+  if (n<=nmax){
+    int xy = n;
+    for (int x=0; x<=xy; x++){
+      int y = xy-x;
+      pushMatrix();
+      translate(squarewidth*x,squarewidth*y);
+      fill(int(random(0,255)),255,185,60);
+      rotate(random(0,TWO_PI));
+      float variant = random(-sizevar_s,sizevar_s);
+      rect(0,0,squarewidth+variant, squarewidth+variant);
+      popMatrix();
+    }
+    n++;
+  } else {
+    noLoop();
+  }
+}

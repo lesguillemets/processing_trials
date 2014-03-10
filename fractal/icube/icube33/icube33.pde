@@ -1,0 +1,116 @@
+// fractal : 3x3.
+float rx=2.0;
+float ry=8.0;
+float rz=0.0;
+int scaler = 10;
+Grid a = new Grid();
+
+class Grid {
+  int level;
+  int len;
+  int[][] grid;
+  int[][] basePattern;
+  
+  Grid() {
+    this.level = 1;
+    this.len = 3;
+    this.grid = new int[this.len][this.len];
+    this.basePattern = new int[][] {{0,2,1}, {2,1,0}, {1,0,2}};
+    for(int i=0; i<this.len; i++){
+      for(int j=0; j<this.len; j++){
+        this.grid[i][j] = this.basePattern[i][j];
+      }
+    }
+  }
+  
+  void zoom(){
+    int[][] newgrid;
+    newgrid = new int[this.len*3][this.len*3];
+    for(int px=0; px<3; px++){
+      for(int py=0; py<3; py++){
+        for(int x=0; x<this.len; x++){
+          for(int y=0; y<this.len; y++){
+            newgrid[px*this.len + x][py*this.len + y]
+              = this.grid[x][y] + this.len*this.basePattern[px][py];
+          }
+        }
+      }
+    }
+    this.level++;
+    this.len*=3;
+    this.grid = newgrid;
+  }
+  
+  void zoomfor(int n){
+    for(int i=0; i<n; i++){
+      this.zoom();
+    }
+  }
+  
+  void printme(){
+    for(int i=0; i<this.len; i++){
+      for(int j=0; j<this.len; j++){
+        print(this.grid[i][j]);
+        print(" ");
+      }
+      print("\n");
+    }
+  }
+}
+
+void setup(){
+  //a = new Grid();
+  //a.zoomfor(1);
+  //a.printme();
+  //a.zoomfor(1);
+  size(2*a.len*scaler,2*a.len*scaler, P3D);
+  smooth();
+  noStroke();
+}
+
+void draw(){
+  //scale(scaler);
+  fill(204);
+  background(0);
+  colorMode(HSB,a.len);
+  //stroke(50);
+  //noStroke();
+  //if (keyPressed){
+    println(rx);
+  //translate(scaler*width/2,scaler*height/2,0);
+   // rotateX(rx);
+    //rotateY(ry);
+    //rotateZ(rz);
+    for(int x=0; x<a.len; x++){
+      for(int y=0; y<a.len; y++){
+        pushMatrix();
+        translate(x,y,a.grid[x][y]);
+        fill(a.grid[x][y],a.len,a.len);
+        box(scaler,scaler,scaler);
+        popMatrix();
+      }
+    }
+  fill(244);
+  box(500,500,500);
+  //} else {
+    //noLoop();
+  //}
+}
+
+
+void keyPressed() {
+  switch (keyCode){
+    case UP:
+      rx -= 0.1;
+      break;
+    case DOWN:
+      rx += 0.1;
+      break;
+    case LEFT:
+      ry -= 0.1;
+      break;
+    case RIGHT:
+      ry += 0.1;
+      break;
+  }
+}

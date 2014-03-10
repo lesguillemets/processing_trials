@@ -1,0 +1,75 @@
+// fractal : 3x3.
+class Grid {
+  int level;
+  int len;
+  int[][] grid;
+  int[][] basePattern;
+  
+  Grid() {
+    this.level = 1;
+    this.len = 3;
+    this.grid = new int[this.len][this.len];
+    this.basePattern = new int[][] {{0,2,1}, {2,1,0}, {1,0,2}};
+    for(int i=0; i<this.len; i++){
+      for(int j=0; j<this.len; j++){
+        this.grid[i][j] = this.basePattern[i][j];
+      }
+    }
+  }
+  
+  void zoom(){
+    int[][] newgrid;
+    newgrid = new int[this.len*3][this.len*3];
+    for(int px=0; px<3; px++){
+      for(int py=0; py<3; py++){
+        for(int x=0; x<this.len; x++){
+          for(int y=0; y<this.len; y++){
+            newgrid[px*this.len + x][py*this.len + y]
+              = this.grid[x][y] + this.len*this.basePattern[px][py];
+          }
+        }
+      }
+    }
+    this.level++;
+    this.len*=3;
+    this.grid = newgrid;
+  }
+  
+  void zoomfor(int n){
+    for(int i=0; i<n; i++){
+      this.zoom();
+    }
+  }
+  
+  void printme(){
+    for(int i=0; i<this.len; i++){
+      for(int j=0; j<this.len; j++){
+        print(this.grid[i][j]);
+        print(" ");
+      }
+      print("\n");
+    }
+  }
+}
+
+void setup(){
+  Grid a;
+  a = new Grid();
+  //a.printme();
+  //a.zoomfor(6);
+  a.zoomfor(5);
+  //a.printme();
+  background(0);
+  noStroke();
+  colorMode(HSB,a.len);
+  size(a.len, a.len);
+  //scale(5);
+  for(int x=0; x<a.len; x++){
+    for(int y=0; y<a.len; y++){
+      fill(a.grid[x][y],a.len,a.len);
+      //stroke(a.grid[x][y],a.len,a.len);
+      rect(x,y,x+1,y+1);
+    }
+  }
+  saveFrame("foo2.png");
+}

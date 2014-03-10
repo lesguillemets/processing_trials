@@ -1,0 +1,80 @@
+int sizex = 500; // size x
+int sizey = 500; // size y
+int squarewidth =  25; // (mean) width of each square
+int n=0; // proceeding
+int nmax = (sizex+sizey)/squarewidth-2; // maximum steps
+float sizevar = 1.0;  // ratio of variant / size
+float sizevar_s = squarewidth*sizevar/2; // 0.8--1--1.2 makes 0.4 var width.
+Square[][] squares = new Square[sizex/squarewidth][sizey/squarewidth];
+int uptime = 70;
+int waittime = 5;
+int waitcounter = waittime;
+
+void setup() {
+  size(sizex,sizey);
+  background(200);
+  noStroke();
+  colorMode(HSB);
+  rectMode(CENTER);
+  setupSquares();
+}
+
+void draw(){
+  if (n<=nmax+uptime){
+  background(200);
+    for (int row=0; row<=n; row++){
+      for(int x=max(0,row-sizey/squarewidth+1);
+            x<=row && x<sizex/squarewidth; x++){
+        int y = row - x;
+        //println(x,y,"\t",row, "\t",n);
+        Square thissquare = squares[x][y];
+        pushMatrix();
+        translate(squarewidth*x,squarewidth*y);
+        fill(thissquare.col,255,255,60);
+        rotate(thissquare.r * thissquare.age/uptime);
+        float thislen = thissquare.l * thissquare.age / uptime;
+        rect(0,0,thislen,thislen);
+        thissquare.growold();
+        popMatrix();
+      }
+    }
+    if (waitcounter>0){
+      waitcounter --;
+    } else{
+    n++;
+    waitcounter = waittime;
+    }
+  } else {
+    noLoop();
+  }
+}
+
+void setupSquares() {
+  for(int x=0; x<sizex/squarewidth; x++){
+    for(int y=0; y<sizey/squarewidth; y++){
+      float variant = random(-sizevar_s, sizevar_s);
+      float r = random(0,TWO_PI);
+      int col = int(random(0,255));
+      squares[x][y] = new Square(squarewidth+variant,r,col);
+    }
+  }
+}
+
+class Square{
+  float l; //length
+  float r; //angle
+  int col; //color
+  int age = 0;//-waittime;
+  
+  Square(float l,float r, int col){
+    this.l = l;
+    this.r = r;
+    this.col = col;
+  }
+  void growold(){
+    if (this.age < uptime){
+      this.age++;
+    }
+  }
+}
+  
