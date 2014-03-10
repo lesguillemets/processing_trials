@@ -1,7 +1,7 @@
 int sizex = 300; // size x
 int sizey = 300; // size y
-int gridwidth = 10; // grid to contain squares
-int squarewidth = 10; // (mean) width of each square
+int gridwidth = 20; // grid to contain squares
+int squarewidth = 20; // (mean) width of each square
 int n=0; // proceeding
 int nmax = (sizex+sizey)/gridwidth-2; // maximum steps
 float sizevar = 0.8;  // ratio of variant / size
@@ -32,7 +32,7 @@ void draw(){
         Square thissquare = squares[x][y];
         pushMatrix();
         translate(gridwidth*x,gridwidth*y);
-        fill(thissquare.col,255,255,90);
+        fill(thissquare.col,255,255,90*thissquare.age/uptime);
         rotate(thissquare.r * thissquare.age/uptime);
         float thislen = thissquare.l * thissquare.age / uptime;
         rect(0,0,thislen,thislen);
@@ -47,7 +47,7 @@ void draw(){
     waitcounter = waittime;
     }
     if (record==0){
-      saveFrame("pic3_####.png");
+      //saveFrame("pic3_####.png");
       record=4;
     } else {
       record--;
