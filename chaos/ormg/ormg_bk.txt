@@ -37,12 +37,15 @@ void draw(){
     println(counter);
     counter ++;
   } else {
+    if (abprinted){
       noLoop();
+    } else {
       println("______________");
       println(a,b);
       println("______________");
       abprinted = true;
-      saveFrame("mypic.png");
+      saveFrame("coloredfoo3.png");
+    }
   }
   if(keyPressed){
     println(x,y);

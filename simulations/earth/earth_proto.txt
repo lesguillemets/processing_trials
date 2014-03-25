@@ -1,13 +1,15 @@
 float GM = 2500;
 Mass sun = new Mass(0,0,0,0,0);
 Mass earth;
+double dt = 0.001;
+int steps = 1000;
 int wid = 800;
 int hei = 800;
 
 void setup(){
   size(wid,hei);
   ellipseMode(CENTER);
-  earth = new Mass(92,0,0,5.2,100);
+  earth = new Mass(52,0,0,6.2,100);
   noStroke();
 }
 
@@ -21,14 +23,16 @@ void draw(){
     fill(255,100,100);
     ellipse(0,0,20,20);
     fill(0,255,100);
-    ellipse((float) earth.r.x, (float) earth.r.y,10,10);
-    double ax, ay;
-    //ax = -GM*earth.r.x / Math.pow(earth.r.nrm(),3);
-    ax = -GM*earth.r.x / earth.r.nrmth();
-    //ay = -GM*earth.r.y / Math.pow(earth.r.nrm(),3);
-    ay = -GM*earth.r.y / earth.r.nrmth();
-    //println(earth.r.x, earth.r.y, "\t", earth.v.x, earth.v.y,"\t",ax, ay);
-    earth.movewith(ax,ay);
+    for (int i=0; i<steps; i++){
+      ellipse((float) earth.r.x, (float) earth.r.y,2,2);
+      double ax, ay;
+      //ax = -GM*earth.r.x / Math.pow(earth.r.nrm(),3);
+      ax = -GM*earth.r.x / earth.r.nrmth();
+      //ay = -GM*earth.r.y / Math.pow(earth.r.nrm(),3);
+      ay = -GM*earth.r.y / earth.r.nrmth();
+      //println(earth.r.x, earth.r.y, "\t", earth.v.x, earth.v.y,"\t",ax, ay);
+      earth.movewith(ax,ay);
+    }
     
     if (earth.r.x < -wid/2 || earth.r.x > wid/2
         || earth.r.y < -hei/2 || earth.r.x > hei/2
@@ -62,12 +66,12 @@ class Mass {
   }
   
   void movewith(double ax, double ay){
-    this.r = this.r.add(this.v);
-    this.v = this.v.add(new MyVector(ax,ay));
+    this.r = this.r.add(this.v.multi(dt));
+    this.v = this.v.add(new MyVector(ax*dt,ay*dt));
   }
   void movewith(MyVector a){
-    this.r = this.r.add(this.v);
-    this.v = this.v.add(a);
+    this.r = this.r.add(this.v.multi(dt));
+    this.v = this.v.add(a.multi(dt));
   }
   
   void die(){
@@ -86,6 +90,18 @@ class MyVector {
   
   MyVector add(MyVector other){
     return new MyVector(this.x+other.x, this.y+other.y);
+  }
+  
+  MyVector multi(double times){
+    return new MyVector(this.x*times, this.y*times);
+  }
+
+   MyVector multi(float times){
+    return new MyVector(this.x*times, this.y*times);
+  }
+
+   MyVector multi(int times){
+    return new MyVector(this.x*times, this.y*times);
   }
   
   double nrm(){

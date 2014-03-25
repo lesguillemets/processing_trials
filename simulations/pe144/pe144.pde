@@ -7,15 +7,17 @@ int counter = 0;
 //int saveflag = 3;
 
 void setup() {
+  background(0);
   size(300,600);
   translate(width/2,height/2);
   scale(20);
   strokeWeight(0.1);
   smooth();
-  fill(0,0,0,0);
+  //fill(0,0,0,0);
+  fill(255);
   ellipseMode(RADIUS);
   ellipse(0,0,5,10);
-  pn = new MyVector(1.83779759494891, 9.3);
+  pn = new MyVector(1.8377, 9.3);
   pp = new MyVector(4,10.1);
 }
 
@@ -54,6 +56,7 @@ class MyVector{
     this.y = y;
   }
 }
+
 
 MyVector next(MyVector v1, MyVector v0){
   double alpha;

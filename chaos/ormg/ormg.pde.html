@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="Generator" content="Vim/7.4">
+<meta name="plugin-version" content="vim7.4_v1">
+<meta name="syntax" content="processing">
+<meta name="settings" content="number_lines,use_css,pre_wrap,no_foldcolumn,expand_tabs,line_ids,prevent_copy=">
+<meta name="colorscheme" content="jellybeans">
+<style type="text/css">
+<!--
+pre#vimCodeElement { white-space: pre-wrap; font-family: monospace; color: #d7d7d7; background-color: #000000; }
+#vimCodeElement { font-family: monospace; color: #d7d7d7; background-color: #000000; }
+#vimCodeElement>.Function { color: #ffd787; }
+#vimCodeElement>.level14c { color: #585858; }
+#vimCodeElement>.level15c { color: #9e9e9e; }
+#vimCodeElement>.Statement { color: #8787af; }
+#vimCodeElement>.Type { color: #ffaf5f; }
+#vimCodeElement>.String { color: #87af5f; }
+#vimCodeElement>.LineNr { color: #5f5f5f; }
+#vimCodeElement>.Comment { color: #808080; }
+#vimCodeElement>.Constant { color: #d75f5f; }
+-->
+</style>
+
+
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span><span class="Comment">/*</span>
+<span id="L2" class="LineNr"> 2 </span> <span class="Comment">x_{n+1} = yn + axn</span>
+<span id="L3" class="LineNr"> 3 </span> <span class="Comment">y_{n+1} = xn**2 + b</span>
+<span id="L4" class="LineNr"> 4 </span><span class="Comment">*/</span>
+<span id="L5" class="LineNr"> 5 </span>
+<span id="L6" class="LineNr"> 6 </span><span class="Type">int</span> len = <span class="Constant">1600</span>;
+<span id="L7" class="LineNr"> 7 </span><span class="Type">int</span> counter = <span class="Constant">0</span>;
+<span id="L8" class="LineNr"> 8 </span><span class="Type">int</span> n = <span class="Constant">5000</span>;
+<span id="L9" class="LineNr"> 9 </span><span class="Type">int</span> hue = <span class="Constant">0</span>;
+<span id="L10" class="LineNr">10 </span><span class="Type">int</span> loop = <span class="Constant">200</span>;
+<span id="L11" class="LineNr">11 </span><span class="Type">float</span> scaler = <span class="Constant">500</span>;
+<span id="L12" class="LineNr">12 </span><span class="Type">boolean</span> abprinted = <span class="Constant">false</span>;
+<span id="L13" class="LineNr">13 </span>
+<span id="L14" class="LineNr">14 </span><span class="Type">float</span> x = <span class="Constant">0</span>;
+<span id="L15" class="LineNr">15 </span><span class="Type">float</span> y = <span class="Constant">0</span>;
+<span id="L16" class="LineNr">16 </span><span class="Type">float</span> a= <span class="Constant">0.18525845</span>; <span class="Type">float</span> b=-<span class="Constant">1.1336243</span>;
+<span id="L17" class="LineNr">17 </span><span class="Comment">// or any other values you want</span>
+<span id="L18" class="LineNr">18 </span>
+<span id="L19" class="LineNr">19 </span><span class="Type">void</span> <span class="Function">setup</span>(){
+<span id="L20" class="LineNr">20 </span>  <span class="Function">size</span><span class="level15c">(</span>len*<span class="Constant">3</span>/<span class="Constant">2</span>,len<span class="level15c">)</span>;
+<span id="L21" class="LineNr">21 </span>  <span class="Function">background</span><span class="level15c">(</span><span class="Constant">0</span><span class="level15c">)</span>;
+<span id="L22" class="LineNr">22 </span>  <span class="Comment">//smooth();</span>
+<span id="L23" class="LineNr">23 </span>}
+<span id="L24" class="LineNr">24 </span>
+<span id="L25" class="LineNr">25 </span><span class="Type">void</span> <span class="Function">draw</span>(){
+<span id="L26" class="LineNr">26 </span>  <span class="Function">translate</span><span class="level15c">(</span>len/<span class="Constant">2</span>, len/<span class="Constant">2</span><span class="level15c">)</span>;
+<span id="L27" class="LineNr">27 </span>  <span class="Function">scale</span><span class="level15c">(</span>scaler<span class="level15c">)</span>;
+<span id="L28" class="LineNr">28 </span>  <span class="Function">strokeWeight</span><span class="level15c">(</span><span class="Constant">0.001</span><span class="level15c">)</span>;
+<span id="L29" class="LineNr">29 </span>  <span class="Statement">if</span> <span class="level15c">(</span>counter &lt;= loop<span class="level15c">){</span>
+<span id="L30" class="LineNr">30 </span>    stepnext<span class="level14c">()</span>;
+<span id="L31" class="LineNr">31 </span>    <span class="Function">println</span><span class="level14c">(</span>counter<span class="level14c">)</span>;
+<span id="L32" class="LineNr">32 </span>    counter ++;
+<span id="L33" class="LineNr">33 </span>  <span class="level15c">}</span> <span class="Statement">else</span> <span class="level15c">{</span>
+<span id="L34" class="LineNr">34 </span>      <span class="Function">println</span><span class="level14c">(</span><span class="String">&quot;______________&quot;</span><span class="level14c">)</span>;
+<span id="L35" class="LineNr">35 </span>      <span class="Function">println</span><span class="level14c">(</span>a,b<span class="level14c">)</span>;
+<span id="L36" class="LineNr">36 </span>      <span class="Function">println</span><span class="level14c">(</span><span class="String">&quot;______________&quot;</span><span class="level14c">)</span>;
+<span id="L37" class="LineNr">37 </span>      <span class="Function">saveFrame</span><span class="level14c">(</span><span class="String">&quot;mypic.png&quot;</span><span class="level14c">)</span>;
+<span id="L38" class="LineNr">38 </span>      <span class="Function">noLoop</span><span class="level14c">()</span>;
+<span id="L39" class="LineNr">39 </span>  <span class="level15c">}</span>
+<span id="L40" class="LineNr">40 </span>  <span class="Statement">if</span><span class="level15c">(</span><span class="Constant">keyPressed</span><span class="level15c">){</span> <span class="Comment">// in case you want to see.</span>
+<span id="L41" class="LineNr">41 </span>    <span class="Function">println</span><span class="level14c">(</span>x,y<span class="level14c">)</span>;
+<span id="L42" class="LineNr">42 </span>  <span class="level15c">}</span>
+<span id="L43" class="LineNr">43 </span>}
+<span id="L44" class="LineNr">44 </span>
+<span id="L45" class="LineNr">45 </span><span class="Type">void</span> stepnext(){
+<span id="L46" class="LineNr">46 </span>  <span class="Function">colorMode</span><span class="level15c">(</span><span class="Constant">HSB</span>,loop<span class="level15c">)</span>;
+<span id="L47" class="LineNr">47 </span>  <span class="Function">stroke</span><span class="level15c">(</span>loop*<span class="Constant">200</span>/<span class="Constant">360</span>,loop,hue<span class="level15c">)</span>;
+<span id="L48" class="LineNr">48 </span>  <span class="Statement">for</span> <span class="level15c">(</span><span class="Type">int</span> i=<span class="Constant">0</span>; i&lt;=n; i++<span class="level15c">){</span>
+<span id="L49" class="LineNr">49 </span>    <span class="Function">point</span><span class="level14c">(</span>x,y<span class="level14c">)</span>;
+<span id="L50" class="LineNr">50 </span>    <span class="Type">float</span> nextx, nexty;
+<span id="L51" class="LineNr">51 </span>    nextx = y + a*x;
+<span id="L52" class="LineNr">52 </span>    nexty = x*x + b;
+<span id="L53" class="LineNr">53 </span>    x = nextx;
+<span id="L54" class="LineNr">54 </span>    y = nexty;
+<span id="L55" class="LineNr">55 </span>  <span class="level15c">}</span>
+<span id="L56" class="LineNr">56 </span>  hue++;
+<span id="L57" class="LineNr">57 </span>}
+</pre>
+</body>

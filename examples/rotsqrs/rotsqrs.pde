@@ -1,7 +1,7 @@
 int sizex = 300; // size x
 int sizey = 300; // size y
-int gridwidth = 20; // grid to contain squares
-int squarewidth = 20; // (mean) width of each square
+int gridwidth = 14; // grid to contain squares
+int squarewidth = 40; // (mean) width of each square
 int n=0; // proceeding
 int nmax = (sizex+sizey)/gridwidth-2; // maximum steps
 float sizevar = 0.8;  // ratio of variant / size
